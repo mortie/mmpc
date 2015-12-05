@@ -1,5 +1,4 @@
 {
 	"port": 8080,
-	"media_streamer": "http://localhost:10100",
-	"remote_desktop": "http://localhost:10200"
+	"host": "localhost"
 }

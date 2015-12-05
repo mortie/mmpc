@@ -1,0 +1,6 @@
+[submodule "media-streamer"]
+	path = media-streamer
+	url = https://github.com/mortie/mmpc-media-streamer.git
+[submodule "remote-desktop"]
+	path = remote-desktop
+	url = https://github.com/mortie/mmpc-remote-desktop.git
