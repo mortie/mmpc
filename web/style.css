@@ -1,0 +1,27 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #433325;
+}
+
+#content {
+	width: 90%;
+	max-width: 2000px;
+	margin: auto;
+}
+
+nav {
+	color: #eee;
+	padding: 24px;
+	background-color: #7A5029;
+	border-radius: 5px;
+	border: 1px solid black;
+}
+
+#frame {
+	width: 100%;
+	height: calc(100vh - 110px);
+	border: none;
+}
