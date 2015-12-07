@@ -5,20 +5,20 @@ var nav = {
 var frame = document.getElementById("frame");
 
 function load(name) {
-	frame.src = conf[name];
+	frame.src = "http://"+conf.host+":"+conf[name].port;
 	location.hash = name;
 }
 
 if (location.hash)
 	load(location.hash.substring(1));
 else
-	load("media_streamer");
+	load("media-streamer");
 
 nav.mediaStreamer.addEventListener("click", function() {
-	load("media_streamer");
+	load("media-streamer");
 });
 nav.remoteDesktop.addEventListener("click", function() {
-	load("remote_desktop");
+	load("remote-desktop");
 });
 
 document.body.addEventListener("click", function() {

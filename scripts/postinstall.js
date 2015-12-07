@@ -3,7 +3,7 @@ var exec = require("child_process").spawn;
 function install(name) {
 	var dir = process.cwd();
 
-	process.chdir(name);
+	process.chdir("modules/"+name);
 	var child = exec("npm", ["install"]);
 	process.chdir(dir);
 
@@ -17,3 +17,4 @@ function install(name) {
 
 install("media-streamer");
 install("remote-desktop");
+install("wallpaper");

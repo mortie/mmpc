@@ -6,7 +6,7 @@ var conf = JSON.parse(fs.readFileSync("conf.json"));
 
 function load(name) {
 	var dir = process.cwd();
-	process.chdir(name);
+	process.chdir("modules/"+name);
 
 	//Create conf entry if it doesn't exist
 	if (!conf[name]) {
@@ -15,6 +15,7 @@ function load(name) {
 	}
 
 	//Create module conf
+	conf[name].host = conf.host;
 	fs.writeFileSync("conf.json", JSON.stringify(conf[name], null, 4));
 
 	//Init process
@@ -32,6 +33,7 @@ load.children = {};
 
 load("media-streamer");
 load("remote-desktop");
+load("wallpaper");
 
 //Static web content
 fs.writeFileSync("web/conf.js", "window.conf = "+JSON.stringify(conf)+";");
