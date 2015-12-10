@@ -20,8 +20,14 @@ nav {
 	border: 1px solid black;
 }
 
-#frame {
+#frames > iframe,
+#frames {
+	overflow: hidden;
 	width: 100%;
 	height: calc(100vh - 110px);
 	border: none;
+}
+
+#frames > iframe {
+	display: none;
 }
