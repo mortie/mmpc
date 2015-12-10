@@ -20,13 +20,17 @@ function load(name) {
 	}
 
 	var frame = frames[name];
+	frame.style.display = "block";
+
+	if (load.frame === frame) {
+		frame.src = "http://"+conf.host+":"+conf[name].port;
+		return;
+	}
+
 	load.frame = frame;
-	console.log(frame.src, !!frame.src);
 
 	if (!frame.src || frame.src === "http://false/")
 		frame.src = "http://"+conf.host+":"+conf[name].port;
-
-	frame.style.display = "block";
 }
 
 if (location.hash)

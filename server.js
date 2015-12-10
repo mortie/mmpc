@@ -4,7 +4,16 @@ var exec = require("child_process").spawn;
 
 var conf = JSON.parse(fs.readFileSync("conf.json"));
 
+try {
+	fs.mkdirSync("logs");
+} catch (err) {
+	if (err.code !== "EEXIST")
+		throw err;
+}
+
 function load(name) {
+	var logStream = fs.createWriteStream("logs/"+name+".log");
+
 	var dir = process.cwd();
 	process.chdir("modules/"+name);
 
@@ -21,8 +30,8 @@ function load(name) {
 	//Init process
 	var child = exec("npm", ["start"]);
 	load.children[name] = child;
-	child.stdout.pipe(process.stdout);
-	child.stderr.pipe(process.stderr);
+	child.stdout.pipe(logStream);
+	child.stderr.pipe(logStream);
 
 	process.chdir(dir);
 

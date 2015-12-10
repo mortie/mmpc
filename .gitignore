@@ -1,4 +1,5 @@
 node_modules/
+logs/*
 web/conf.js
 conf.json
 npm-debug.log
