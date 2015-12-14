@@ -12,31 +12,44 @@ try {
 }
 
 function load(name) {
-	var logStream = fs.createWriteStream("logs/"+name+".log");
+	console.log("Loading "+name);
 
-	var dir = process.cwd();
-	process.chdir("modules/"+name);
-
-	//Create conf entry if it doesn't exist
-	if (!conf[name]) {
-		conf[name] = JSON.parse(fs.readFileSync("conf.json.example"));
-		console.log(conf);
+	try {
+		var logFile = "logs/"+name+".log";
+		fs.closeSync(fs.openSync(logFile, "w"));
+		var logStream = fs.createWriteStream(logFile);
+	} catch (err) {
+		throw err;
 	}
+	logStream.on("error", function(err) {
+		throw err;
+	});
 
-	//Create module conf
-	conf[name].host = conf.host;
-	fs.writeFileSync("conf.json", JSON.stringify(conf[name], null, 4));
+	logStream.on("open", function() {
+		var dir = process.cwd();
+		process.chdir("modules/"+name);
 
-	//Init process
-	var child = exec("npm", ["start"]);
-	load.children[name] = child;
-	child.stdout.pipe(logStream);
-	child.stderr.pipe(logStream);
+		//Create conf entry if it doesn't exist
+		if (!conf[name]) {
+			conf[name] = JSON.parse(fs.readFileSync("conf.json.example"));
+			console.log(conf);
+		}
 
-	process.chdir(dir);
+		//Create module conf
+		conf[name].host = conf.host;
+		fs.writeFileSync("conf.json", JSON.stringify(conf[name], null, 4));
 
-	delete conf[name].host;
-	fs.writeFileSync("conf.json", JSON.stringify(conf, null, 4));
+		//Init process
+		var child = exec("npm", ["start"]);
+		load.children[name] = child;
+		child.stdout.pipe(logStream);
+		child.stderr.pipe(logStream);
+
+		process.chdir(dir);
+
+		delete conf[name].host;
+		fs.writeFileSync("conf.json", JSON.stringify(conf, null, 4));
+	});
 }
 load.children = {};
 
