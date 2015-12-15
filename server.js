@@ -29,12 +29,6 @@ function load(name) {
 		var dir = process.cwd();
 		process.chdir("modules/"+name);
 
-		//Create conf entry if it doesn't exist
-		if (!conf[name]) {
-			conf[name] = JSON.parse(fs.readFileSync("conf.json.example"));
-			console.log(conf);
-		}
-
 		//Create module conf
 		conf[name].host = conf.host;
 		fs.writeFileSync("conf.json", JSON.stringify(conf[name], null, 4));
@@ -46,9 +40,6 @@ function load(name) {
 		child.stderr.pipe(logStream);
 
 		process.chdir(dir);
-
-		delete conf[name].host;
-		fs.writeFileSync("conf.json", JSON.stringify(conf, null, 4));
 	});
 }
 load.children = {};

@@ -1,11 +1,28 @@
 var exec = require("child_process").spawn;
+var fs = require("fs");
+var conf;
+
+try {
+	conf = JSON.parse(fs.readFileSync("conf.json"));
+} catch (err) {
+	if (err.code !== "ENOENT")
+		throw err;
+
+	conf = JSON.parse(fs.readFileSync("conf.json.example"));
+}
 
 function install(name) {
-	var dir = process.cwd();
+	console.log("Installing "+name);
 
+	var dir = process.cwd();
 	process.chdir("modules/"+name);
+
+	//Create conf entry if it doesn't exist
+	if (!conf[name]) {
+		conf[name] = JSON.parse(fs.readFileSync("conf.json.example"));
+	}
+
 	var child = exec("npm", ["install"]);
-	process.chdir(dir);
 
 	child.stdout.on("data", function(data) {
 		console.log(name+"(stdout): "+data.toString().trim());
@@ -13,6 +30,11 @@ function install(name) {
 	child.stderr.on("data", function(data) {
 		console.log(name+"(stderr): "+data.toString().trim());
 	});
+
+	process.chdir(dir);
+
+	delete conf[name].host;
+	fs.writeFileSync("conf.json", JSON.stringify(conf, null, 4));
 }
 
 install("media-streamer");
