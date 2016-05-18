@@ -44,7 +44,7 @@ function load(name) {
 			logStream.on("end", function() {
 				load(name);
 			});
-			logSstream.end();
+			logStream.end();
 		});
 	});
 }
