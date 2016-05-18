@@ -1,6 +1,5 @@
-var express = require("express");
 var fs = require("fs");
-var exec = require("child_process").spawn;
+var spawn = require("child_process").spawn;
 
 var conf = JSON.parse(fs.readFileSync("conf.json"));
 
@@ -34,22 +33,22 @@ function load(name) {
 		fs.writeFileSync("conf.json", JSON.stringify(conf[name], null, 4));
 
 		//Init process
-		var child = exec("npm", ["start"]);
+		var child = spawn("npm", ["start"]);
 		load.children[name] = child;
 		child.stdout.pipe(logStream);
 		child.stderr.pipe(logStream);
 
 		process.chdir(dir);
+
+		child.on("exit", function() {
+			logStream.on("end", function() {
+				load(name);
+			});
+			logSstream.end();
+		});
 	});
 }
 load.children = {};
 
 load("media-streamer");
-load("remote-desktop");
 load("wallpaper");
-
-//Static web content
-fs.writeFileSync("web/conf.js", "window.conf = "+JSON.stringify(conf)+";");
-var app = express();
-app.use(express.static("web"));
-app.listen(conf.port);

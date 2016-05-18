@@ -38,5 +38,4 @@ function install(name) {
 }
 
 install("media-streamer");
-install("remote-desktop");
 install("wallpaper");
