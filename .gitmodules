@@ -1,9 +1,6 @@
 [submodule "modules/media-streamer"]
 	path = modules/media-streamer
 	url = https://github.com/mortie/mmpc-media-streamer.git
-[submodule "modules/remote-desktop"]
-	path = modules/remote-desktop
-	url = https://github.com/mortie/mmpc-remote-desktop.git
 [submodule "modules/wallpaper"]
 	path = modules/wallpaper
 	url = https://github.com/mortie/mmpc-wallpaper.git
